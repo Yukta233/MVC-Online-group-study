@@ -50,11 +50,7 @@
         
         <div class="auth-footer">
             Don't have an account? <a href="{{ route('register') }}">Sign Up Now</a>
-            <div style="margin-top: 1.25rem; font-size: 0.78rem; color: var(--text-muted);">
-                <strong>Demo Accounts:</strong><br>
-                alex@example.com / password<br>
-                elena@example.com / password
-            </div>
+            
         </div>
     </div>
 
