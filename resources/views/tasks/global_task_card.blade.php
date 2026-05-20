@@ -1,6 +1,6 @@
 <div class="kanban-card" id="task-card-{{ $task->id }}" style="margin-bottom: 0.5rem;">
-    <span style="font-size: 0.72rem; color: var(--accent-indigo); font-weight: 600; background: rgba(99, 102, 241, 0.1); padding: 0.15rem 0.4rem; border-radius: 4px; display: inline-block; margin-bottom: 0.5rem;">
-        {{ $task->studyGroup->name }}
+    <span style="font-size: 0.72rem; color: {{ $task->studyGroup ? 'var(--accent-indigo)' : 'var(--accent-emerald)' }}; background: {{ $task->studyGroup ? 'rgba(99, 102, 241, 0.1)' : 'rgba(16, 185, 129, 0.1)' }}; padding: 0.15rem 0.4rem; border-radius: 4px; display: inline-block; margin-bottom: 0.5rem;">
+        {{ $task->studyGroup ? $task->studyGroup->name : 'Personal Task' }}
     </span>
     <h5>{{ $task->title }}</h5>
     <p>{{ $task->description ?: 'No details provided.' }}</p>

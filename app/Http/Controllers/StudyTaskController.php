@@ -47,20 +47,24 @@ class StudyTaskController extends Controller
         $user = Auth::user();
         
         $request->validate([
-            'study_group_id' => 'required|exists:study_groups,id',
+            'study_group_id' => 'nullable|exists:study_groups,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
         ]);
 
-        $group = StudyGroup::findOrFail($request->study_group_id);
+        $groupId = null;
+        if ($request->filled('study_group_id')) {
+            $group = StudyGroup::findOrFail($request->study_group_id);
 
-        // Ensure user belongs to this study group
-        if (!$group->members()->where('user_id', $user->id)->exists()) {
-            abort(403, 'Unauthorized action.');
+            // Ensure user belongs to this study group
+            if (!$group->members()->where('user_id', $user->id)->exists()) {
+                abort(403, 'Unauthorized action.');
+            }
+            $groupId = $group->id;
         }
 
         StudyTask::create([
-            'study_group_id' => $group->id,
+            'study_group_id' => $groupId,
             'title' => $request->title,
             'description' => $request->description,
             'status' => 'todo',
@@ -74,9 +78,16 @@ class StudyTaskController extends Controller
     {
         $task = StudyTask::with('studyGroup')->findOrFail($id);
 
-        // Ensure membership in study group
-        if (!$task->studyGroup->members()->where('user_id', Auth::id())->exists()) {
-            return response()->json(['error' => 'Unauthorized'], 403);
+        // Ensure membership in study group if task is associated with one
+        if ($task->study_group_id) {
+            if (!$task->studyGroup->members()->where('user_id', Auth::id())->exists()) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+        } else {
+            // For personal tasks, ensure the task belongs to the user
+            if ($task->assignee_id !== Auth::id()) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
         }
 
         $request->validate([

@@ -9,11 +9,9 @@
             <h1><i class="fa-solid fa-clipboard-list" style="color: var(--accent-indigo);"></i> My Unified Tasks Board</h1>
             <p>Track, manage, and complete all items assigned to you across all your study groups.</p>
         </div>
-        @if($groups->isNotEmpty())
-            <button class="btn btn-primary" onclick="openModal('globalTaskModal')" style="width: auto; padding: 0.6rem 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                <i class="fa-solid fa-circle-plus"></i> Add Global Task
-            </button>
-        @endif
+        <button class="btn btn-primary" onclick="openModal('globalTaskModal')" style="width: auto; padding: 0.6rem 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-circle-plus"></i> Add Task Card
+        </button>
     </div>
 
     <!-- Triple Column Kanban Layout -->
@@ -74,8 +72,9 @@
             <form action="{{ route('global.tasks.store') }}" method="POST">
                 @csrf
                 <div class="form-group" style="margin-bottom: 1.25rem;">
-                    <label for="study_group_id">Select Study Group</label>
-                    <select name="study_group_id" id="study_group_id" class="form-control" required style="background: rgba(10, 11, 16, 0.9); border: 1px solid var(--border-color); color: var(--text-primary);">
+                    <label for="study_group_id">Study Group Context</label>
+                    <select name="study_group_id" id="study_group_id" class="form-control" style="background: rgba(10, 11, 16, 0.9); border: 1px solid var(--border-color); color: var(--text-primary);">
+                        <option value="">None (Personal Task)</option>
                         @foreach($groups as $group)
                             <option value="{{ $group->id }}">{{ $group->name }} ({{ $group->subject }})</option>
                         @endforeach

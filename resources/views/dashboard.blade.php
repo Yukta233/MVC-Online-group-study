@@ -177,7 +177,7 @@
                                 <div>
                                     <h4 style="font-size: 0.9rem; font-weight: 600;">{{ $task->title }}</h4>
                                     <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;">
-                                        Room: <strong>{{ $task->studyGroup->name }}</strong>
+                                        Room: <strong>{{ $task->studyGroup ? $task->studyGroup->name : 'Personal Task' }}</strong>
                                     </div>
                                 </div>
                                 <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; padding: 0.2rem 0.5rem; border-radius: 4px; 

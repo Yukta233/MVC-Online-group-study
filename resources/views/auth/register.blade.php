@@ -35,7 +35,7 @@
             
             <div class="form-group">
                 <label for="name">Full Name</label>
-                <input type="text" name="name" id="name" class="form-control" placeholder="Alex Johnson" value="{{ old('name') }}" required autofocus>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Alex Johnson" value="{{ old('name') }}" required autofocus pattern="[A-Za-z\s]+" title="Name can only contain alphabetic characters and spaces (no numbers or special characters)">
             </div>
             
             <div class="form-group">

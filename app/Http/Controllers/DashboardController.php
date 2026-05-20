@@ -104,7 +104,10 @@ class DashboardController extends Controller
             ->get();
 
         // 3. Search Kanban Tasks assigned to user or in joined groups
-        $tasks = StudyTask::whereIn('study_group_id', $groupIds)
+        $tasks = StudyTask::where(function($q) use ($groupIds, $user) {
+                $q->whereIn('study_group_id', $groupIds)
+                  ->orWhere('assignee_id', $user->id);
+            })
             ->where(function($q) use ($query) {
                 $q->where('title', 'like', "%{$query}%")
                   ->orWhere('description', 'like', "%{$query}%");
@@ -139,8 +142,8 @@ class DashboardController extends Controller
             $results[] = [
                 'type' => 'Task',
                 'title' => $t->title,
-                'subtitle' => "Kanban status: " . strtoupper($t->status) . " inside " . $t->studyGroup->name,
-                'url' => route('groups.show', $t->study_group_id),
+                'subtitle' => "Kanban status: " . strtoupper($t->status) . " inside " . ($t->studyGroup ? $t->studyGroup->name : 'Personal Task'),
+                'url' => $t->study_group_id ? route('groups.show', $t->study_group_id) : route('global.tasks'),
                 'icon' => 'fa-clipboard-list'
             ];
         }

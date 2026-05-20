@@ -35,7 +35,7 @@ class ChatMessageController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => $message,
-                'formatted_time' => $message->created_at->format('h:i A'),
+                'formatted_time' => now('Asia/Kolkata')->format('h:i A'),
             ]);
         }
 
@@ -66,7 +66,7 @@ class ChatMessageController extends Controller
                 'user_name' => $msg->user->name,
                 'message' => $msg->message,
                 'is_me' => $msg->user_id === Auth::id(),
-                'formatted_time' => $msg->created_at->format('h:i A'),
+                'formatted_time' => now('Asia/Kolkata')->format('h:i A'),
             ];
         });
 

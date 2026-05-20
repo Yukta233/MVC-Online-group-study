@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('study_tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('study_group_id')->constrained()->onDelete('cascade');
+            $table->foreignId('study_group_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('status')->default('todo'); // todo, in_progress, completed

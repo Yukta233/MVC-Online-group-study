@@ -98,7 +98,7 @@
                                     <div class="chat-bubble">
                                         {{ $msg->message }}
                                     </div>
-                                    <span class="chat-time">{{ $msg->created_at->format('h:i A') }}</span>
+                                    <span class="chat-time">{{ now('Asia/Kolkata')->format('h:i A') }}</span>
                                 </div>
                             </div>
                         @endforeach
@@ -688,7 +688,7 @@ Select a language, write your code, and click "Run Code" to view output.</div>
             <h3>Share Study Resource</h3>
             <button class="modal-close" onclick="closeModal('resourceModal')">&times;</button>
         </div>
-        <form action="{{ route('resources.store', $group->id) }}" method="POST">
+        <form action="{{ route('resources.store', $group->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="res_title">Resource Title</label>
@@ -696,8 +696,15 @@ Select a language, write your code, and click "Run Code" to view output.</div>
             </div>
             
             <div class="form-group">
+                <label for="res_file">Upload File (from PC / Device)</label>
+                <input type="file" name="file" id="res_file" class="form-control" style="padding: 0.4rem 0.75rem;">
+            </div>
+
+            <div style="text-align: center; margin: 0.75rem 0; color: var(--text-muted); font-size: 0.8rem; font-weight: 500;">— OR —</div>
+
+            <div class="form-group">
                 <label for="res_url">URL / Document Link</label>
-                <input type="url" name="url" id="res_url" class="form-control" placeholder="https://example.com/notes.pdf" required>
+                <input type="url" name="url" id="res_url" class="form-control" placeholder="https://example.com/notes.pdf">
             </div>
 
             <div class="form-group">

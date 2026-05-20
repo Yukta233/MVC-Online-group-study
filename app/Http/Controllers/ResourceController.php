@@ -20,17 +20,33 @@ class ResourceController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255',
-            'url' => 'required|url|max:500',
+            'url' => 'nullable|url|required_without:file|max:500',
+            'file' => 'nullable|file|max:20480', // limit to 20MB
             'resource_type' => 'required|in:link,document',
             'description' => 'nullable|string|max:1000',
         ]);
+
+        $url = $request->url;
+        $type = $request->resource_type;
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $dirPath = public_path('uploads/resources');
+            if (!file_exists($dirPath)) {
+                mkdir($dirPath, 0755, true);
+            }
+            $fileName = 'resource_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($dirPath, $fileName);
+            $url = asset('uploads/resources/' . $fileName);
+            $type = 'document';
+        }
 
         Resource::create([
             'study_group_id' => $group->id,
             'user_id' => Auth::id(),
             'title' => $request->title,
-            'url' => $request->url,
-            'resource_type' => $request->resource_type,
+            'url' => $url,
+            'resource_type' => $type,
             'description' => $request->description,
         ]);
 
