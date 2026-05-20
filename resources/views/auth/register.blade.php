@@ -35,12 +35,12 @@
             
             <div class="form-group">
                 <label for="name">Full Name</label>
-                <input type="text" name="name" id="name" class="form-control" placeholder="Alex Johnson" value="{{ old('name') }}" required autofocus pattern="[A-Za-z\s]+" title="Name can only contain alphabetic characters and spaces (no numbers or special characters)">
+                <input type="text" name="name" id="name" class="form-control" placeholder="Enter your name" value="{{ old('name') }}" required autofocus pattern="[A-Za-z\s]+" title="Name can only contain alphabetic characters and spaces (no numbers or special characters)">
             </div>
             
             <div class="form-group">
                 <label for="email">Email Address</label>
-                <input type="email" name="email" id="email" class="form-control" placeholder="alex@example.com" value="{{ old('email') }}" required>
+                <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" value="{{ old('email') }}" required>
             </div>
             
             <div class="form-group">
